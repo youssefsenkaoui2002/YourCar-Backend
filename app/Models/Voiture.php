@@ -8,13 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Voiture extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'marque',
-        'modele',
-        'year',
-        'reservation_id',
-        'magasin_id',
-    ];
+    protected $fillable = ['magasin_id', 'marque', 'modele', 'year'];
 
     
     public function reservations()
