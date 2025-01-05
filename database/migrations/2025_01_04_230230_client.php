@@ -22,8 +22,11 @@ return new class extends Migration
             $table->date('DateBirth');
             $table->string('city', 100);
             $table->email('email')->unique();
+            $table->unsignedBigInteger('user_id');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

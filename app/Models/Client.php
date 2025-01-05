@@ -20,5 +20,14 @@ class Client extends Model
         'DateBirth',
         'email',
     ];
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
     
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

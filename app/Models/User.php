@@ -43,10 +43,23 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function employee()
+    {
+        return $this->hasOne(Employee::class);
+    }
+
+    public function clients()
+    {
+        return $this->hasMany(Client::class);
+    }
+
+
     protected function type(): Attribute
     {
         return new Attribute(
-            get: fn ($value) =>  ["client","assistant","commercial","chefM", "manager"][$value],
+            get: fn ($value) => ["client", "assistant", "commercial", "chefM", "manager"][$value],
         );
     }
+
+
 }
