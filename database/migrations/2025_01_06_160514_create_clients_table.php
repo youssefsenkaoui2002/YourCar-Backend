@@ -4,7 +4,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-// Migration for 'magasins'
 return new class extends Migration
 {
     /**
@@ -12,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('magasins', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('location');
-            $table->string('phone');
+        Schema::create('clients', function (Blueprint $table) {
+            $table->id('idclient'); // Clé primaire
+            $table->unsignedBigInteger('user_iduser'); // FK vers users
             $table->timestamps();
+
+            // Contraintes de clé étrangère
+            $table->foreign('user_iduser')->references('iduser')->on('users')->onDelete('cascade');
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('magasins');
+        Schema::dropIfExists('clients');
     }
 };

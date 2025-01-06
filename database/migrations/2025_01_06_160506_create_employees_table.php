@@ -4,7 +4,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-// Migration for 'employees'
 return new class extends Migration
 {
     /**
@@ -13,13 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('employees', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('magasin_id');
-            $table->string('job_title');
-            $table->decimal('salary', 10, 2);
+            $table->id('idemployee'); // Clé primaire
+            $table->unsignedBigInteger('user_iduser'); // FK vers users
+            $table->unsignedBigInteger('magasin_idmagasin'); // FK vers magasin
             $table->timestamps();
 
-            $table->foreign('magasin_id')->references('id')->on('magasins')->onDelete('cascade');
+            // Contraintes de clés étrangères
+            $table->foreign('user_iduser')->references('iduser')->on('users')->onDelete('cascade');
+            $table->foreign('magasin_idmagasin')->references('idmagasin')->on('magasin')->onDelete('cascade');
         });
     }
 

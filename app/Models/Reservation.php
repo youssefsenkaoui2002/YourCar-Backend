@@ -9,29 +9,27 @@ class Reservation extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'employee_id',
-        'reservation_date',
-        'details',
-    ];
+    protected $table = 'reservations';
+    protected $primaryKey = 'idreservation';
+    protected $fillable = ['employee_idemployee', 'user_iduser', 'voitures_idvoitures'];
 
     public function employee()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(Employee::class, 'employee_idemployee');
     }
 
-    public function client()
+    public function user()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(User::class, 'user_iduser');
+    }
+
+    public function voiture()
+    {
+        return $this->belongsTo(Voiture::class, 'voitures_idvoitures');
     }
 
     public function documents()
     {
-        return $this->hasMany(Document::class);
-    }
-
-    public function voitures()
-    {
-        return $this->belongsToMany(Voiture::class, 'reservation_voiture');
+        return $this->hasMany(Document::class, 'reservation_idreservation');
     }
 }

@@ -8,20 +8,24 @@ use Illuminate\Database\Eloquent\Model;
 class Employee extends Model
 {
     use HasFactory;
-    protected $fillable = ['magasin_id', 'job_title', 'salary'];
+
+    protected $table = 'employees';
+    protected $primaryKey = 'idemployee';
+    protected $fillable = ['user_iduser', 'magasin_idmagasin'];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public function reservations()
-    {
-        return $this->hasMany(Reservation::class);
+        return $this->belongsTo(User::class, 'user_iduser');
     }
 
     public function magasin()
     {
-        return $this->belongsTo(Magasin::class);
+        return $this->belongsTo(Magasin::class, 'magasin_idmagasin');
+    }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'employee_idemployee');
     }
 }
+
