@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('magasin', function (Blueprint $table) {
             $table->id('idmagasin');
             $table->string('nom');
+            $table->string('ville');
+            $table->string('telephone');
             $table->string('adresse');
             $table->timestamps();
         });
