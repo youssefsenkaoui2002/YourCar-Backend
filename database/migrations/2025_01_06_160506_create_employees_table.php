@@ -15,6 +15,13 @@ return new class extends Migration
             $table->id('idemployee'); // Clé primaire
             $table->unsignedBigInteger('user_iduser'); // FK vers users
             $table->unsignedBigInteger('magasin_idmagasin'); // FK vers magasin
+            $table->string('nom', 100); // Nom de l'employé
+            $table->string('prenom', 100); // Prénom de l'employé
+            $table->string('poste', 100); // Poste de l'employé
+            $table->decimal('salaire', 10, 2); // Salaire de l'employé
+            $table->date('date_embauche'); // Date d'embauche
+            $table->string('telephone', 15); // Téléphone de l'employé
+            $table->string('email', 150)->unique(); // Email de l'employé
             $table->timestamps();
 
             // Contraintes de clés étrangères

@@ -11,7 +11,16 @@ class Reservation extends Model
 
     protected $table = 'reservations';
     protected $primaryKey = 'idreservation';
-    protected $fillable = ['employee_idemployee', 'user_iduser', 'voitures_idvoitures'];
+    protected $fillable = [
+        'employee_idemployee',
+        'user_iduser',
+        'voitures_idvoitures',
+        'date_debut',
+        'date_fin',
+        'montant_total',
+        'status',
+        'notes',
+    ];
 
     public function employee()
     {

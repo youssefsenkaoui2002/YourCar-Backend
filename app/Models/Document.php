@@ -11,8 +11,16 @@ class Document extends Model
 
     protected $table = 'documents';
     protected $primaryKey = 'iddocument';
-    protected $fillable = ['reservation_idreservation', 'reservation_employee_idemployee', 'reservation_user_iduser'];
-
+    protected $fillable = [
+        'reservation_idreservation', 
+        'reservation_employee_idemployee', 
+        'reservation_user_iduser', 
+        'type_document', 
+        'chemin_fichier', 
+        'nom_fichier', 
+        'date_emission', 
+        'description'
+    ];
     public function reservation()
     {
         return $this->belongsTo(Reservation::class, 'reservation_idreservation');

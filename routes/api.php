@@ -4,6 +4,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MagasinController;
 use App\Http\Controllers\VoitureController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\DocumentController;
+
+
+
+
+
+
+
 
 
 /*
@@ -24,3 +35,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResource('magasins', MagasinController::class);
 
 Route::resource('voitures', VoitureController::class);
+
+
+
+Route::apiResource('employees', EmployeeController::class);
+
+Route::apiResource('clients', ClientController::class);
+
+Route::apiResource('reservations', ReservationController::class);
+
+Route::apiResource('documents', controller: DocumentController::class);
+
+
+
+

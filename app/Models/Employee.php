@@ -11,7 +11,18 @@ class Employee extends Model
 
     protected $table = 'employees';
     protected $primaryKey = 'idemployee';
-    protected $fillable = ['user_iduser', 'magasin_idmagasin'];
+    protected $fillable = [
+        'user_iduser',
+        'magasin_idmagasin',
+        'nom',
+        'prenom',
+        'poste',
+        'salaire',
+        'date_embauche',
+        'telephone',
+        'email',
+    ];
+    
 
     public function user()
     {

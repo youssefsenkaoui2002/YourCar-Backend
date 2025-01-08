@@ -16,6 +16,14 @@ return new class extends Migration
             $table->unsignedBigInteger('employee_idemployee'); // FK vers employees
             $table->unsignedBigInteger('user_iduser'); // FK vers users
             $table->unsignedBigInteger('voitures_idvoitures'); // FK vers voitures
+            
+            // Champs spécifiques à la réservation
+            $table->date('date_debut'); // Date de début de location
+            $table->date('date_fin'); // Date de fin de location
+            $table->decimal('montant_total', 10, 2); // Montant total de la réservation
+            $table->string('status', 50)->default('en attente'); // Statut de la réservation
+            $table->text('notes')->nullable(); // Notes supplémentaires
+            
             $table->timestamps();
 
             // Contraintes de clés étrangères

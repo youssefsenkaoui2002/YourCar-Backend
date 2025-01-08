@@ -16,6 +16,11 @@ return new class extends Migration
             $table->unsignedBigInteger('reservation_idreservation'); // FK vers reservations
             $table->unsignedBigInteger('reservation_employee_idemployee'); // FK vers employees
             $table->unsignedBigInteger('reservation_user_iduser'); // FK vers users
+            $table->string('type_document'); // Type de document (contrat, facture, etc.)
+            $table->string('chemin_fichier'); // Chemin du fichier stocké
+            $table->string('nom_fichier'); // Nom du fichier
+            $table->date('date_emission'); // Date d'émission du document
+            $table->text('description')->nullable(); // Description ou remarques sur le document
             $table->timestamps();
 
             // Contraintes de clés étrangères

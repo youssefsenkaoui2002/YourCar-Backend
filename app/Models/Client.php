@@ -11,7 +11,17 @@ class Client extends Model
 
     protected $table = 'clients';
     protected $primaryKey = 'idclient';
-    protected $fillable = ['user_iduser'];
+    protected $fillable = [
+        'user_iduser',
+        'nom',
+        'prenom',
+        'adresse',
+        'telephone',
+        'email',
+        'date_naissance',
+        'ville',
+    ];
+    
 
     public function user()
     {

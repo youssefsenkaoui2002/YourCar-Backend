@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('voitures', function (Blueprint $table) {
             $table->id('idvoitures'); // Clé primaire
-            $table->string('nom');
-            $table->string('email')->nullable();
+            $table->string('VilleDepart');
+            $table->string('VilleArrivee');
+            $table->string('DateDepart');
+            $table->string('DateArrivee');
             $table->timestamps();
         });
     }
