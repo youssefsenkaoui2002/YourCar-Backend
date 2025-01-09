@@ -4,6 +4,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends Authenticatable
 {
@@ -35,6 +36,13 @@ class User extends Authenticatable
     public function reservations()
     {
         return $this->hasMany(Reservation::class, 'user_iduser');
+    }
+
+    protected function type(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) =>  ["user", "admin", "manager",'supermanager','autre'][$value],
+        );
     }
 }
 

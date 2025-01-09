@@ -54,15 +54,28 @@ Route::apiResource('documents', controller: DocumentController::class);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth.token')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
+Route::middleware('chekrole:user')->group(function () {
 
-    // Routes protégées
-    Route::get('/profile', function (Request $request) {
-        $user = \App\Models\User::where('remember_token', $request->header('Authorization'))->first();
-        return response()->json($user);
-    });
+    
 });
+Route::middleware('chekrole:admin')->group(function () {
+
+    
+});
+Route::middleware('chekrole:manager')->group(function () {
+
+    
+});
+Route::middleware('chekrole:supermanager')->group(function () {
+
+    
+});
+Route::middleware('chekrole:autre')->group(function () {
+
+    
+});
+
+// ["user", "admin", "manager",'supermanager','autre']
 
 
 
