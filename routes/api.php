@@ -9,6 +9,9 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\DocumentController;
 
+use App\Http\Controllers\Auth\AuthController;
+
+
 
 
 
@@ -45,6 +48,21 @@ Route::apiResource('clients', ClientController::class);
 Route::apiResource('reservations', ReservationController::class);
 
 Route::apiResource('documents', controller: DocumentController::class);
+
+
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::middleware('auth.token')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+    // Routes protégées
+    Route::get('/profile', function (Request $request) {
+        $user = \App\Models\User::where('remember_token', $request->header('Authorization'))->first();
+        return response()->json($user);
+    });
+});
 
 
 

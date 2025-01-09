@@ -2,74 +2,68 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use App\Models\User;
-use App\Models\Client;
+use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
-
-    public function register(Request $req){
-
-        $validated = $req->validate([
-            'UserName' => 'required|string|max:255',
-            'password' => 'required|string|min:8|confirmed',
-            'Name'=>'required|string|max:50',
-            'lName'=>'required|string|max:50',
-            'adress'=>'required|string|max:255',
-            'phone'=>'required|string|max:15',
-            'city'=>'required|string|max:100',
-            'CIN'=>'required|string|max:10',
-            'NumP'=>'required|string|max:9',
-            'DateBirth'=>'required|date',
-            'email'=>'required|email|unique:client,email',
+    // Enregistrement d'un utilisateur
+    public function register(Request $request)
+    {
+        $validated = $request->validate([
+            'UserName' => 'required|unique:users',
+            'password' => 'required|min:6',
+            'type' => 'required|in:0,1,2,3,4',
         ]);
 
-        User::create([
-            'UserName' => $validated->UserName,
-            'password' => Hash::make($validated->password),
+        $user = User::create([
+            'UserName' => $validated['UserName'],
+            'password' => Hash::make($validated['password']),
+            'type' => $validated['type'],
         ]);
 
-        Client::create([
-            'Name'=>$validated->Name,
-            'lName'=>$validated->lName,
-            'adress'=>$validated->adress,
-            'phone'=>$validated->phone,
-            'city'=>$validated->city,
-            'CIN'=>$validated->CIN,
-            'NumP'=>$validated->NumP,
-            'DateBirth'=>$validated->DateBith,
-            'email'=>$validated->email,
+        return response()->json(['message' => 'Utilisateur créé avec succès'], 201);
+    }
+
+    // Connexion d'un utilisateur
+    public function login(Request $request)
+    {
+        $validated = $request->validate([
+            'UserName' => 'required',
+            'password' => 'required',
         ]);
+
+        $user = User::where('UserName', $validated['UserName'])->first();
+
+        if (!$user || !Hash::check($validated['password'], $user->password)) {
+            return response()->json(['message' => 'Identifiants invalides'], 401);
+        }
+
+        // Générer un token
+        $token = Str::random(60);
+        $user->remember_token = $token;
+        $user->save();
 
         return response()->json([
-            'message'=>'Client created with his account successfully'
+            'token' => $token,
+            'user' => $user,
         ]);
     }
 
-    public function login(Request $req){
-        $validated = $req->validate([
-            'UserName' => 'required|string|max:255',
-            'password' => 'required|string|min:8'
-        ]);
+    // Déconnexion d'un utilisateur
+    public function logout(Request $request)
+    {
+        $user = User::where('remember_token', $request->header('Authorization'))->first();
 
-        $credentials = $req->only('UserName','password');
+        if ($user) {
+            $user->remember_token = null;
+            $user->save();
+            return response()->json(['message' => 'Déconnexion réussie'], 200);
+        }
 
-        if(auth()->attempt($credentials)){
-            $user = User::all();
-            $token = $user->createToken('Personal Access Token')->plainTextToken;
-
-            return response()->json([
-                'message' => 'User authenticated successfully',
-                'user' =>$user,
-                'token' =>$token
-            ]);
-        };
-
-        return response()->json([
-            'message' => 'authentication feild'
-        ]);
+        return response()->json(['message' => 'Utilisateur non authentifié'], 401);
     }
 }

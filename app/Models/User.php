@@ -7,11 +7,20 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory ;
 
-    protected $table = 'users';
-    protected $primaryKey = 'iduser';
-    protected $fillable = ['name', 'email', 'password'];
+    protected $primaryKey = 'iduser'; // Nom de la clé primaire
+
+    protected $fillable = [
+        'UserName',
+        'password',
+        'type',
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
     public function employees()
     {
