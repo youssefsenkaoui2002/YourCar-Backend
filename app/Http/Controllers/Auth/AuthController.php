@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Models\Client;
+use App\Models\User;
 
 
 
@@ -17,14 +17,34 @@ class AuthController extends Controller
     {
         try {
             $validated = $request->validate([
-                'UserName' => 'required|unique:users',
-                'password' => 'required|min:8|confirmed',
+                'UserName' => 'required|unique:users', // Validation pour l'utilisateur
+                'password' => 'required|min:8|confirmed', // Validation du mot de passe
+                'nom' => 'required|string|max:100',
+                'prenom' => 'required|string|max:100',
+                'adresse' => 'required|string|max:255',
+                'telephone' => 'required|string|max:15',
+                'email' => 'required|string|email|max:150|unique:clients',
+                'date_naissance' => 'nullable|date',
+                'ville' => 'nullable|string|max:100',
             ]);
-
+            
             $user = User::create([
                 'UserName' => $validated['UserName'],
                 'password' => Hash::make($validated['password'])
             ]);
+
+            $client = Client::create([
+                'user_iduser' => $user->id,
+                'nom' => $validated['nom'],
+                'prenom' => $validated['prenom'],
+                'adresse' => $validated['adresse'],
+                'telephone' => $validated['telephone'],
+                'email' => $validated['email'],
+                'date_naissance' => $validated['date_naissance'],
+                'ville' => $validated['ville'],
+            ]);
+
+           
 
             return response()->json(['message' => 'Utilisateur créé avec succès'], 201);
         } catch (\Exception $e) {
