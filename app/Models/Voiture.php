@@ -11,7 +11,13 @@ class Voiture extends Model
 
     protected $table = 'voitures';
     protected $primaryKey = 'idvoitures';
-    protected $fillable = ['nom', 'email'];
+    
+    protected $fillable = [
+        'marque',
+        'modele',
+        'year',
+        'magasin_id',
+    ];
 
     public function reservations()
     {
