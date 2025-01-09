@@ -17,8 +17,8 @@ class AuthController extends Controller
     {
         try {
             $validated = $request->validate([
-                'UserName' => 'required|unique:users', // Validation pour l'utilisateur
-                'password' => 'required|min:8|confirmed', // Validation du mot de passe
+                'UserName' => 'required|unique:users',
+                'password' => 'required|min:8|confirmed',
                 'nom' => 'required|string|max:100',
                 'prenom' => 'required|string|max:100',
                 'adresse' => 'required|string|max:255',
@@ -27,12 +27,6 @@ class AuthController extends Controller
                 'date_naissance' => 'nullable|date',
                 'ville' => 'nullable|string|max:100',
             ]);
-            
-            $user = User::create([
-                'UserName' => $validated['UserName'],
-                'password' => Hash::make($validated['password'])
-            ]);
-
             $client = Client::create([
                 'user_iduser' => $user->id,
                 'nom' => $validated['nom'],
@@ -44,9 +38,12 @@ class AuthController extends Controller
                 'ville' => $validated['ville'],
             ]);
 
-           
+            $user = User::create([
+                'UserName' => $validated['UserName'],
+                'password' => Hash::make($validated['password'])
+            ]);
 
-            return response()->json(['message' => 'Utilisateur créé avec succès'], 201);
+            return response()->json(['message' => 'Client créé avec succès'], 201);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Une erreur est survenue lors de la création de l\'utilisateur :',$e->getMessage()], 500);
         }
