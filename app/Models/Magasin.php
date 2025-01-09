@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Employee;
+use App\Models\Voiture;
 
 class Magasin extends Model
 {
@@ -22,5 +24,9 @@ class Magasin extends Model
     public function employees()
     {
         return $this->hasMany(Employee::class, 'magasin_idmagasin');
+    }
+
+    public function voitures(){
+        return $this->hasMany(Voiture::class, 'magasin_id');
     }
 }

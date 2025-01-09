@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('iduser');
             $table->string('UserName')->unique();
             $table->string('password');
-            $table->enum('type', [0,1,2,3,4])->default(0);
+            $table->enum('type', [0,1,2,3])->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

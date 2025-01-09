@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Document;
+use App\Models\Client;
+use App\Models\Voiture;
+use App\Models\Employee;
 
 class Reservation extends Model
 {
@@ -27,9 +31,9 @@ class Reservation extends Model
         return $this->belongsTo(Employee::class, 'employee_idemployee');
     }
 
-    public function user()
+    public function client()
     {
-        return $this->belongsTo(User::class, 'user_iduser');
+        return $this->belongsTo(Client::class, 'user_iduser');
     }
 
     public function voiture()
