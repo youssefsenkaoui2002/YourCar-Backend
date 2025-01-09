@@ -97,25 +97,9 @@ Route::controller(DocumentController::class)->group(function(){
 
 
 
-    // Routes accessibles uniquement aux utilisateurs avec rôle "user"
-    Route::middleware('checkrole:user')->group(function () {
-        // Routes pour les magasins
-        Route::controller(MagasinController::class)->group(function () {
-            Route::get('/magasins', 'index');
-            Route::get('/magasins/{id}', 'show');
-            Route::post('/magasins', 'store');
-            Route::put('/magasins/{id}', 'update');
-            Route::delete('/magasins/{id}', 'destroy');
-        });
+    
 
-        // Routes pour les voitures
-        Route::controller(VoitureController::class)->group(function () {
-            Route::get('/voitures', 'index');
-            Route::get('/voitures/{id}', 'show');
-            Route::post('/voitures', 'store');
-            Route::put('/voitures/{id}', 'update');
-            Route::delete('/voitures/{id}', 'destroy');
-        });
+        
 
         // Routes pour les employés
         Route::controller(EmployeeController::class)->group(function () {
@@ -135,39 +119,5 @@ Route::controller(DocumentController::class)->group(function(){
             Route::delete('/clients/{id}', 'destroy');
         });
 
-        // Routes pour les réservations
-        Route::controller(ReservationController::class)->group(function () {
-            Route::get('/reservations', 'index');
-            Route::get('/reservations/{id}', 'show');
-            Route::post('/reservations', 'store');
-            Route::put('/reservations/{id}', 'update');
-            Route::delete('/reservations/{id}', 'destroy');
-        });
-
-        // Routes pour les documents
-        Route::controller(DocumentController::class)->group(function () {
-            Route::get('/documents', 'index');
-            Route::get('/documents/{id}', 'show');
-            Route::post('/documents', 'store');
-            Route::put('/documents/{id}', 'update');
-            Route::delete('/documents/{id}', 'destroy');
-        });
-    });
-
-    // Groupes pour rôles supplémentaires
-    Route::middleware('checkrole:admin')->group(function () {
-        // Ajoutez ici les routes spécifiques pour les administrateurs
-    });
-
-    Route::middleware('checkrole:manager')->group(function () {
-        // Ajoutez ici les routes spécifiques pour les managers
-    });
-
-    Route::middleware('checkrole:supermanager')->group(function () {
-        // Ajoutez ici les routes spécifiques pour les supermanagers
-    });
-
-    Route::middleware('checkrole:autre')->group(function () {
-        // Ajoutez ici les routes spécifiques pour le rôle "autre"
-    });
-});
+       
+    
