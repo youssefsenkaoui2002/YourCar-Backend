@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('ville');
             $table->string('telephone');
             $table->string('adresse');
+            $table->string('status');
             $table->timestamps();
         });
     }

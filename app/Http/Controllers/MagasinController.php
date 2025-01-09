@@ -10,7 +10,10 @@ class MagasinController extends Controller
     // Liste tous les magasins
     public function index()
     {
-        return response()->json(Magasin::all(), 200);
+        $magasins =Magasin::all();
+        return response()->json([
+            "magasins" =>$magasins
+        ]);
     }
 
     // Retourne un magasin spécifique
@@ -27,10 +30,11 @@ class MagasinController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string',
-            'location' => 'required|string',
-            'phone' => 'required|string',
-            'status' => 'required|string',
+            'nom' => 'required|string',
+            'ville' => 'required|string',
+            'telephone' => 'required|string',
+            'adresse' => 'required|string',
+            "status" => 'required|string'
         ]);
 
         $magasin = Magasin::create($validated);
@@ -46,12 +50,13 @@ class MagasinController extends Controller
         }
 
         $validated = $request->validate([
-            'name' => 'string',
-            'location' => 'string',
+            'nom' => 'string',
+            'ville' => 'string',
             'phone' => 'string',
-            'status' => 'string',
+            'telephone' => 'string',
+            "status" => 'string'
         ]);
-
+        // dd($validated);
         $magasin->update($validated);
         return response()->json($magasin, 200);
     }

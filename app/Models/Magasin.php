@@ -11,7 +11,13 @@ class Magasin extends Model
 
     protected $table = 'magasin';
     protected $primaryKey = 'idmagasin';
-    protected $fillable = ['nom', 'adresse'];
+    protected $fillable = [
+        'nom',
+        'ville',
+        'telephone',
+        'adresse',
+        'status'
+    ];
 
     public function employees()
     {

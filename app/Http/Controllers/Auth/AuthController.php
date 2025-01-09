@@ -18,66 +18,52 @@ class AuthController extends Controller
         try {
             $validated = $request->validate([
                 'UserName' => 'required|unique:users',
-                'password' => 'required|min:6',
-                'type' => 'required|in:0,1,2,3,4',
+                'password' => 'required|min:8|confirmed',
             ]);
 
             $user = User::create([
                 'UserName' => $validated['UserName'],
-                'password' => Hash::make($validated['password']),
-                'type' => $validated['type'],
+                'password' => Hash::make($validated['password'])
             ]);
 
             return response()->json(['message' => 'Utilisateur créé avec succès'], 201);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Une erreur est survenue lors de la création de l\'utilisateur :',$e->getMessage()], 500);
         }
-        // $validated = $request->validate([
-        //     'UserName' => 'required|unique:users',
-        //     'password' => 'required|min:6',
-        //     'type' => 'required|in:0,1,2,3,4',
-        // ]);
 
-        // $user = User::create([
-        //     'UserName' => $validated['UserName'],
-        //     'password' => Hash::make($validated['password']),
-        //     'type' => $validated['type'],
-        // ]);
-
-        // return response()->json(['message' => 'Utilisateur créé avec succès'], 201);
     }
 
     // Connexion d'un utilisateur
     public function login(Request $request)
-    {   try {
-        $validated = $request->validate([
-            'UserName' => 'required',
-            'password' => 'required',
-        ]);
+    {
+        try {
+            $validated = $request->validate([
+                'UserName' => 'required',
+                'password' => 'required',
+            ]);
 
-        $account = $request->only('UserName', 'password');
+            $account = $request->only('UserName', 'password');
 
-        if (!auth()->attempt($account)) {
-            return response()->json(['message' => 'Identifiants invalides'], 401);
+            if (!auth()->attempt($account)) {
+                return response()->json(['message' => 'Identifiants invalides'], 401);
+            }
+
+
+            $user = User::where('UserName', $validated['UserName'])->first();
+            // Générer un token
+            $token = $user->createToken('Personal Access Token')->plainTextToken;
+
+            // $token = Str::random(60);
+            // $user->remember_token = $token;
+            // $user->save();
+
+            return response()->json([
+                'message' => 'Utilisateur créé avec succès',
+                'token' => $token,
+                'user' => $user,
+
+            ]);
         }
-
-
-        $user = User::where('UserName', $validated['UserName'])->first();
-        // Générer un token
-        $token = $user->createToken('Personal Access Token')->plainTextToken;
-
-        // $token = Str::random(60);
-        // $user->remember_token = $token;
-        // $user->save();
-
-        return response()->json([
-            'message' => 'Utilisateur créé avec succès',
-            'token' => $token,
-            'user' => $user,
-
-        ]);
-        
-    }
          catch (\Exception $e) {
             return response()->json(['message' => 'Une erreur est survenue lors de la connexion de l\'utilisateur :',$e->getMessage()], 500);
         }
@@ -96,6 +82,6 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => 'Une erreur est survenue lors de la déconnexion de l\'utilisateur :',$e->getMessage()], 500);
         }
-       
+
     }
 }

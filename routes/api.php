@@ -11,71 +11,60 @@ use App\Http\Controllers\DocumentController;
 
 use App\Http\Controllers\Auth\AuthController;
 
-
-
-
-
-
-
-
-
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::apiResource('magasins', MagasinController::class);
-
-Route::resource('voitures', VoitureController::class);
-
-
-
-Route::apiResource('employees', EmployeeController::class);
-
-Route::apiResource('clients', ClientController::class);
-
-Route::apiResource('reservations', ReservationController::class);
-
-Route::apiResource('documents', controller: DocumentController::class);
-
-
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
+
+
+// Route::apiResource('magasins', MagasinController::class);
+
+// Route::resource('voitures', VoitureController::class);
+
+// Route::apiResource('employees', EmployeeController::class);
+
+// Route::apiResource('clients', ClientController::class);
+
+// Route::apiResource('reservations', ReservationController::class);
+
+// Route::apiResource('documents', controller: DocumentController::class);
+
+
+
 
 Route::middleware('chekrole:user')->group(function () {
+    Route::controller(MagasinController::class)->group(function(){
+        Route::get('/magasins','index');
+        Route::get('/magasin/show/{id}', 'show');
+        Route::post('/magasin/store', 'store');
+        Route::put('/magasin/update/{id}', 'update');
+        Route::delete('/magasin/delete/{id}', 'destroy');
+    });
 
-    
 });
 Route::middleware('chekrole:admin')->group(function () {
 
-    
+
 });
 Route::middleware('chekrole:manager')->group(function () {
 
-    
+
 });
 Route::middleware('chekrole:supermanager')->group(function () {
 
-    
+
 });
 Route::middleware('chekrole:autre')->group(function () {
 
-    
+
 });
 
-// ["user", "admin", "manager",'supermanager','autre']
+
 
 
 
