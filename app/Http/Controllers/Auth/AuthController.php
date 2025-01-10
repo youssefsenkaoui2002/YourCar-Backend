@@ -78,6 +78,7 @@ class AuthController extends Controller
                 'message' => 'Utilisateur créé avec succès',
                 'token' => $token,
                 'user' => $user,
+                'role' => $user->type
 
             ]);
         }
